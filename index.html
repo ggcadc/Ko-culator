@@ -24,7 +24,7 @@
   </div>
   <div>
     <p>Enter last fill / pick up date:</p>
-    <input type="text" id="lastFillDate" placeholder="1-1-17" style="text-align: center" required>
+    <input type="date" id="lastFillDate" style="text-align: center" required>
     <p>Enter day supply:</p>
     <input type="text" id="daySupply" placeholder="60" style="text-align: center" required>
   </div>
@@ -32,21 +32,23 @@
     <button onClick="getNextFill()">Next Fill Date</button>
   </div>
   <div>
-    <p class="date-due"></p>
+    <p id="date-due"></p>
   </div>
 
   <script>
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
+    const dateDue = document.querySelector('#date-due');
+    const lastFillInput = document.querySelector('#lastFillDate');
+    const dayInput = document.querySelector('#daySupply');
 
     function getNextFill() {
-      const lastFillDate = new Date(document.querySelector('#lastFillDate').value);
+      const lastFillDate = new Date(lastFillInput.value);
       const dayOfMonth = lastFillDate.getDate();
-      const daySupply = document.querySelector('#daySupply').value;
+      const daySupply = dayInput.value;
       lastFillDate.setDate(dayOfMonth + Number.parseInt(daySupply));
       const nextFillDate = days[lastFillDate.getDay()] + " " + (lastFillDate.getMonth() + 1) + "-" + lastFillDate.getDate() + "-" + lastFillDate.getFullYear();
 
-      document.querySelector('.date-due').innerHTML = nextFillDate.startsWith('undefined') ? 'You must enter the required information' : 'Next fill is due on: <br/><br/>' + nextFillDate;
+      dateDue.innerHTML = nextFillDate.startsWith('undefined') ? 'You must enter the required information' : 'Next fill is due on: <br/><br/>' + nextFillDate;
     };
 
     document.querySelector('input').addEventListener('keyup', (e) => {
